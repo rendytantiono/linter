@@ -73,7 +73,6 @@ function initHooks() {
   SCRIPTS="${INSTALLATION_DIR}/scripts"
   ORIGINSCRIPT="${PWD}/scripts"
   cp -R "${ORIGINSCRIPT}" "${INSTALLATION_DIR}"
-  
   for f in $(find $SCRIPTS -maxdepth 10 -name "*.sh"); do
     echo -e "$(success "Successfully made $(realpath --relative-to="$SCRIPTS" "$f") executable")"    
     chmod +x "$f"
@@ -104,6 +103,16 @@ function initHooks() {
     return 1
   else
     echo -e "$(success "Pre-push setup successful")"
+  fi
+
+  if [ -e "${INSTALLATION_DIR}/.git/hooks/commit-msg" ]; then
+    echo -e "$(warn "Commit message symlink already exists, skipping...")"
+  elif ! curl --fail -o .git/hooks/commit-msg https://raw.githubusercontent.com/hazcod/semantic-commit-hook/master/commit-msg \
+  && chmod 500 .git/hooks/commit-msg && cp "${PWD}/.git/hooks/commit-msg" "${INSTALLATION_DIR}/.git/hooks/" ; then   
+    echo -e "$(error "Failed to install commit-msg hooks")"
+    return 1
+  else
+    echo -e "$(success "Commit-message setup successful")"
   fi
 }
 
