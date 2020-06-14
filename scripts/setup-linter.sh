@@ -104,16 +104,6 @@ function initHooks() {
   else
     echo -e "$(success "Pre-push setup successful")"
   fi
-
-  if [ -e "${INSTALLATION_DIR}/.git/hooks/commit-msg" ]; then
-    echo -e "$(warn "Commit message symlink already exists, skipping...")"
-  elif ! curl --fail -o .git/hooks/commit-msg https://raw.githubusercontent.com/hazcod/semantic-commit-hook/master/commit-msg \
-  && chmod 500 .git/hooks/commit-msg && cp "${PWD}/.git/hooks/commit-msg" "${INSTALLATION_DIR}/.git/hooks/" ; then   
-    echo -e "$(error "Failed to install commit-msg hooks")"
-    return 1
-  else
-    echo -e "$(success "Commit-message setup successful")"
-  fi
 }
 
 function installReqs() {
