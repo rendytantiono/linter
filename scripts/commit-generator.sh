@@ -13,7 +13,7 @@ go build ${PWD}/commitizen-go
 make -C ${PWD}/commitizen-go
 
 
-${PWD}/commitizen-go install
+${PWD}/commitizen-go/commitizen-go install
 
 h2Info "Cleaning up..."
 rm -rf commitizen-go
